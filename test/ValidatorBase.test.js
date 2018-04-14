@@ -19,17 +19,38 @@ describe('STATES', () => {
 
 describe('ValidatorBase', () => {
 
+	describe('ERRORS', () => {
+
+		test('returns default object when unset', () => {
+			const validator = new ValidatorBase()
+			
+			expect(validator.ERRORS).toEqual({})
+		})
+
+		test('can be set through constructor', () => {
+			const error = { error: 'error' }
+			const validator = new ValidatorBase({ errors: error })
+			
+			expect(validator.ERRORS).toEqual(error)
+		})
+	})
+
 	describe('check', () => {
 
-		test('return default value', () => {
+		test('uses default implementation when not specified', () => {
 			const value = 'value'
 			const validator = new ValidatorBase()
 			
 			expect(validator.check(value)).toEqual({
-				state: 'success',
-				message: 'success',
-				value: value
+				state: 'success'
 			})
+		})
+		test('can be set through constructor', () => {
+			const data = { data: 'value' }
+			const check = () => data
+			const validator = new ValidatorBase({ check: check })
+			
+			expect(validator.check()).toEqual(data)
 		})
 	})
 })
