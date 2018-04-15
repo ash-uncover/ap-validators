@@ -136,6 +136,10 @@ describe('ValidatorArray exports', () => {
 
 describe('ValidatorArray', () => {
 
+	describe('default constructor call', () => {
+		expect(new ValidatorArray()).toBeDefined()
+	})
+
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {

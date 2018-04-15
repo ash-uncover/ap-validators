@@ -19,6 +19,10 @@ describe('STATES', () => {
 
 describe('ValidatorBase', () => {
 
+	describe('default constructor call', () => {
+		expect(new ValidatorBase()).toBeDefined()
+	})
+
 	describe('ERRORS', () => {
 
 		test('returns default object when unset', () => {

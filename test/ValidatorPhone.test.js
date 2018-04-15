@@ -90,6 +90,10 @@ describe('ValidatorPhone exports', () => {
 
 describe('ValidatorPhone', () => {
 
+	describe('default constructor call', () => {
+		expect(new ValidatorPhone()).toBeDefined()
+	})
+
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {

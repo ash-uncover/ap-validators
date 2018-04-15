@@ -84,6 +84,10 @@ describe('ValidatorEmail exports', () => {
 
 describe('ValidatorEmail', () => {
 
+	describe('default constructor call', () => {
+		expect(new ValidatorEmail()).toBeDefined()
+	})
+
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {

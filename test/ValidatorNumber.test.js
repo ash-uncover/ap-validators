@@ -132,6 +132,10 @@ describe('ValidatorNumber exports', () => {
 
 describe('ValidatorNumber', () => {
 
+	describe('default constructor call', () => {
+		expect(new ValidatorNumber()).toBeDefined()
+	})
+
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {

@@ -65,8 +65,8 @@ export default class ValidatorString extends ValidatorBase {
 
 		this._check = check.bind(this, this)
 
-		this.minValue = Number(props.minValue)
-		this.maxValue = Number(props.maxValue)
-		this.allowNil = Number(props.allowNil)
+		this.minValue = props && Number(props.minValue)
+		this.maxValue = props && Number(props.maxValue)
+		this.allowNil = props && !!props.allowNil
 	}
 }
