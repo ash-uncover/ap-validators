@@ -3,14 +3,14 @@ import ValidatorBase from 'validators/ValidatorBase'
 
 export const ERRORS = {
 	CANNOT_BE_NULL: 'CANNOT_BE_NULL',
-	MUST_BE_AN_ARRAY: 'MUST_BE_AN_ARRAY',
+	MUST_BE_A_STRING: 'MUST_BE_A_STRING',
 	MIN_LENGTH_EXCEEDED: 'MIN_LENGTH_EXCEEDED',
 	MAX_LENGTH_EXCEEDED: 'MAX_LENGTH_EXCEEDED'
 }
 
 export const check = (constraints, value) => {
 	return checkNil(constraints, value) 
-		|| checkArray(constraints, value)
+		|| checkString(constraints, value)
 		|| checkMinLength(constraints, value)
 		|| checkMaxLength(constraints, value)
 		|| { state: STATES.SUCCESS }
@@ -31,11 +31,11 @@ export const checkNil = (constraints, value) => {
 	}
 }
 
-export const checkArray = (constraints, value) => {
-	if (!Array.isArray(value)) {
+export const checkString = (constraints, value) => {
+	if (typeof value !== 'string') {
 		return {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MUST_BE_AN_ARRAY
+			message: constraints.ERRORS.MUST_BE_A_STRING
 		}	
 	}
 }
@@ -58,7 +58,7 @@ export const checkMaxLength = (constraints, value) => {
 	}
 }
 
-export default class ValidatorArray extends ValidatorBase {
+export default class ValidatorString extends ValidatorBase {
 
 	constructor(props) {
 		super(Object.assign({}, props, ERRORS))

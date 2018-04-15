@@ -1,11 +1,11 @@
 import { STATES } from 'validators/ValidatorBase'
 import ValidatorBase from 'validators/ValidatorBase'
 
-const REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const REGEX = /^0[1-9]([-. ]?[0-9]{2}){4}$/
 
 export const ERRORS = {
 	MUST_BE_A_STRING: 'MUST_BE_A_STRING',
-	INVALID_EMAIL: 'INVALID_EMAIL'
+	INVALID_PHONE: 'INVALID_PHONE'
 }
 
 export const check = (constraints, value) => {
@@ -19,7 +19,7 @@ export const checkNil = (constraints, value) => {
 	if (value === undefined || value == null) {
 		return {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.INVALID_EMAIL
+			message: constraints.ERRORS.INVALID_PHONE
 		}
 	}
 }
@@ -37,12 +37,12 @@ export const checkRegex = (constraints, value) => {
 	if (!REGEX.test(value)) {
 		return {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.INVALID_EMAIL
+			message: constraints.ERRORS.INVALID_PHONE
 		}
 	} 
 }
 
-export default class ValidatorEmail extends ValidatorBase {
+export default class ValidatorPhone extends ValidatorBase {
 
 	constructor(props) {
 		super(Object.assign({}, props, ERRORS))

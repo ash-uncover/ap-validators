@@ -1,6 +1,6 @@
 import { STATES } from 'validators/ValidatorBase'
-import { ERRORS, check, checkNil, checkArray, checkMinLength, checkMaxLength }  from 'validators/ValidatorArray'
-import ValidatorArray from 'validators/ValidatorArray'
+import { ERRORS, check, checkNil, checkString, checkMinLength, checkMaxLength }  from 'validators/ValidatorString'
+import ValidatorString from 'validators/ValidatorString'
 
 /* TEST DATA */
 
@@ -12,7 +12,7 @@ const success = {
 
 /* TEST CASES */
 
-describe('ValidatorArray exports', () => {
+describe('ValidatorString exports', () => {
 
 	beforeEach(() => {
 		constraints = { ERRORS: ERRORS }
@@ -36,7 +36,7 @@ describe('ValidatorArray exports', () => {
 				expect(check(constraints, null)).toEqual(error)
 			})
 			test('returns nothing for defined value', () => {
-				expect(checkNil(constraints, [])).toEqual()
+				expect(checkNil(constraints, '')).toEqual()
 			})
 		})
 
@@ -55,28 +55,24 @@ describe('ValidatorArray exports', () => {
 				expect(check(constraints, null)).toEqual(success)
 			})
 			test('returns nothing for defined value', () => {
-				expect(checkNil(constraints, [])).toEqual()
+				expect(checkNil(constraints, '')).toEqual()
 			})
 		})
 	})
 
-	describe('checkArray', () => {
+	describe('checkString', () => {
 		
 		const error = {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MUST_BE_AN_ARRAY
+			message: constraints.ERRORS.MUST_BE_A_STRING
 		}
 
-		test('returns MUST_BE_AN_ARRAY error for object value', () => {
-			expect(checkArray(constraints, {})).toEqual(error)
+		test('returns MUST_BE_A_STRING error for object value', () => {
+			expect(checkString(constraints, {})).toEqual(error)
 			expect(check(constraints, {})).toEqual(error)
 		})
-		test('returns MUST_BE_AN_ARRAY error for string value', () => {
-			expect(checkArray(constraints, '')).toEqual(error)
-			expect(check(constraints, '')).toEqual(error)
-		})
-		test('returns nothing when value is an array', () => {
-			expect(checkArray(constraints, [])).toEqual()
+		test('returns nothing when value is a string', () => {
+			expect(checkString(constraints, '')).toEqual()
 		})
 	})
 
@@ -91,12 +87,12 @@ describe('ValidatorArray exports', () => {
 			constraints.minLength = 1
 		})
 		
-		test('returns MIN_LENGTH_EXCEEDED error when array does not contain enough values', () => {
-			expect(checkMinLength(constraints, [])).toEqual(error)
-			expect(check(constraints, [])).toEqual(error)
+		test('returns MIN_LENGTH_EXCEEDED error when string is too short', () => {
+			expect(checkMinLength(constraints, '')).toEqual(error)
+			expect(check(constraints, '')).toEqual(error)
 		})
-		test('returns nothing when array contains enough element', () => {
-			expect(checkArray(constraints, ['value'])).toEqual()
+		test('returns nothing when string length is correct', () => {
+			expect(checkString(constraints, 'v')).toEqual()
 		})
 	})
 
@@ -111,12 +107,12 @@ describe('ValidatorArray exports', () => {
 			constraints.maxLength = 1
 		})
 		
-		test('returns MAX_LENGTH_EXCEEDED error when array contains more values than specified', () => {
-			expect(checkMaxLength(constraints, ['value1','value2'])).toEqual(error)
-			expect(check(constraints, ['value1','value2'])).toEqual(error)
+		test('returns MAX_LENGTH_EXCEEDED error when string is too long', () => {
+			expect(checkMaxLength(constraints, 'va')).toEqual(error)
+			expect(check(constraints, 'va')).toEqual(error)
 		})
-		test('returns nothing when array contains enough element', () => {
-			expect(checkMaxLength(constraints, ['value'])).toEqual()
+		test('returns nothing when string length is correct', () => {
+			expect(checkMaxLength(constraints, 'v')).toEqual()
 		})
 	})
 
@@ -129,22 +125,22 @@ describe('ValidatorArray exports', () => {
 		})
 		
 		test('returns SUCCESS for a fully valid value', () => {
-			expect(check(constraints, ['value1','value2'])).toEqual(success)
+			expect(check(constraints, 'va')).toEqual(success)
 		})
 	})
 })
 
-describe('ValidatorArray', () => {
+describe('ValidatorString', () => {
 
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {
-			const validator = new ValidatorArray({
+			const validator = new ValidatorString({
 				allowNil: false,
 				minLength: 2,
 				maxLength: 2
 			})
-			expect(validator.check(['value1','value2'])).toEqual(success)
+			expect(validator.check('va')).toEqual(success)
 		})
 	})
 })

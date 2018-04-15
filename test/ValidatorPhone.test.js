@@ -1,6 +1,6 @@
 import { STATES } from 'validators/ValidatorBase'
-import { ERRORS, check, checkNil, checkString, checkRegex }  from 'validators/ValidatorEmail'
-import ValidatorEmail from 'validators/ValidatorEmail'
+import { ERRORS, check, checkNil, checkString, checkRegex }  from 'validators/ValidatorPhone'
+import ValidatorPhone from 'validators/ValidatorPhone'
 
 /* TEST DATA */
 
@@ -12,7 +12,7 @@ const success = {
 
 /* TEST CASES */
 
-describe('ValidatorEmail exports', () => {
+describe('ValidatorPhone exports', () => {
 
 	beforeEach(() => {
 		constraints = { ERRORS: ERRORS }
@@ -22,14 +22,14 @@ describe('ValidatorEmail exports', () => {
 
 		const error = {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.INVALID_EMAIL
+			message: constraints.ERRORS.INVALID_PHONE
 		}
 
-		test('returns INVALID_EMAIL error for undefined value', () => {
+		test('returns INVALID_PHONE error for undefined value', () => {
 			expect(checkNil(constraints, undefined)).toEqual(error)
 			expect(check(constraints, undefined)).toEqual(error)
 		})
-		test('returns INVALID_EMAIL error for null value', () => {
+		test('returns INVALID_PHONE error for null value', () => {
 			expect(checkNil(constraints, null)).toEqual(error)
 			expect(check(constraints, null)).toEqual(error)
 		})
@@ -58,11 +58,17 @@ describe('ValidatorEmail exports', () => {
 
 		const error = {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.INVALID_EMAIL
+			message: constraints.ERRORS.INVALID_PHONE
 		}
 
-		test('returns INVALID_EMAIL error when the string is not a valid email', () => {
-			const tests = ['@test.com', 'kiko@.com', 'kiko@test.', 'kikotest.fr', 'kiko@testfr', 'ki@ko@test.fr']
+		test('returns INVALID_PHONE error when the string is not a valid email', () => {
+			const tests = [
+				'',            // must have 10 digits 
+				'012345678',   // must have 10 digits 
+				'01234567890', // must have 10 digits
+				'9876543210',  // must start with 0
+				'012345678a'   // must contain only digits
+			]
 
 			tests.forEach(t => {
 				expect(checkRegex(constraints, t)).toEqual(error)	
@@ -70,25 +76,25 @@ describe('ValidatorEmail exports', () => {
 			})
 		})
 		test('returns nothing for valid value', () => {
-			expect(checkRegex(constraints, 'kiko@test.fr')).toEqual()
+			expect(checkRegex(constraints, '0123456789')).toEqual()
 		})
 	})
 
 	describe('check', () => {
 
 		test('returns SUCCESS for valid value', () => {
-			expect(check(constraints, 'kiko@test.fr')).toEqual(success)
+			expect(check(constraints, '0123456789')).toEqual(success)
 		})
 	})
 })
 
-describe('ValidatorEmail', () => {
+describe('ValidatorPhone', () => {
 
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {
-			const validator = new ValidatorEmail()
-			expect(validator.check('mymail@super.com')).toEqual(success)
+			const validator = new ValidatorPhone()
+			expect(validator.check('0123456789')).toEqual(success)
 		})
 	})
 })

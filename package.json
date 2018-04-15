@@ -1,6 +1,6 @@
 {
   "name": "ap-validators",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "javascript validators",
   "main": "src/index.js",
   "scripts": {
