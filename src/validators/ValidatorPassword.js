@@ -1,5 +1,5 @@
-import { STATES } from 'validators/ValidatorBase'
-import ValidatorBase from 'validators/ValidatorBase'
+import { STATES } from './ValidatorBase'
+import ValidatorBase from './ValidatorBase'
 
 const MIN_LENGTH = 8
 const REQ_LOWER = true

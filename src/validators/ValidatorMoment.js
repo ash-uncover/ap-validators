@@ -1,5 +1,5 @@
-import { STATES } from 'validators/ValidatorBase'
-import ValidatorBase from 'validators/ValidatorBase'
+import { STATES } from './ValidatorBase'
+import ValidatorBase from './ValidatorBase'
 
 import moment from 'moment'
 
@@ -38,6 +38,7 @@ export const checkMoment = (constraints, value) => {
 
 export const checkMinMoment = (constraints, value) => {
 	if (constraints.minMoment && value.isBefore(constraints.minMoment)) {
+		console.log('>> FAILED')
 		return {
 			state: STATES.ERROR,
 			message: constraints.ERRORS.MIN_MOMENT_EXCEEDED
@@ -61,7 +62,17 @@ export default class ValidatorMoment extends ValidatorBase {
 
 		this._check = check.bind(this, this)
 
-		this.minMoment = props && props.minMoment && moment(props.minMoment)
-		this.maxMoment = props && props.maxMoment && moment(props.maxMoment)
+		if (props) {
+			if (moment.isMoment(props.minMoment)) {
+				this.minMoment = props.minMoment
+			} else if (props.minMoment) {
+				this.minMoment = moment(props.minMoment)
+			}
+			if (moment.isMoment(props.maxMoment)) {
+				this.maxMoment = props.maxMoment
+			} else if (props.maxMoment) {
+				this.maxMoment = moment(props.maxMoment)
+			}
+		}
 	}
 }

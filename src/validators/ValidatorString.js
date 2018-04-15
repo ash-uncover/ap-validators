@@ -1,5 +1,5 @@
-import { STATES } from 'validators/ValidatorBase'
-import ValidatorBase from 'validators/ValidatorBase'
+import { STATES } from './ValidatorBase'
+import ValidatorBase from './ValidatorBase'
 
 export const ERRORS = {
 	CANNOT_BE_NULL: 'CANNOT_BE_NULL',

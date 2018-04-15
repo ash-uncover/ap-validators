@@ -1,5 +1,5 @@
-import { STATES } from 'validators/ValidatorBase'
-import ValidatorBase from 'validators/ValidatorBase'
+import { STATES } from './ValidatorBase'
+import ValidatorBase from './ValidatorBase'
 
 const REGEX = /^0[1-9]([-. ]?[0-9]{2}){4}$/
 

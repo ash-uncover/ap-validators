@@ -1,41 +1,44 @@
-import ValidatorArraySrc from 'validators/ValidatorArray'
-export const ValidatorArray = ValidatorArraySrc
+import ValidatorArray_ from './validators/ValidatorArray'
+export const ValidatorArray = ValidatorArray_
 
-import ValidatorBaseSrc from 'validators/ValidatorBase'
-export const ValidatorBase = ValidatorBaseSrc
+import ValidatorBase_ from './validators/ValidatorBase'
+export const ValidatorBase = ValidatorBase_
 
-import ValidatorEmailSrc from 'validators/ValidatorEmail'
-export const ValidatorEmail = ValidatorEmailSrc
+import ValidatorEmail_ from './validators/ValidatorEmail'
+export const ValidatorEmail = ValidatorEmail_
 
-import ValidatorMomentSrc from 'validators/ValidatorMoment'
-export const ValidatorMoment = ValidatorMomentSrc
+import ValidatorMoment_ from './validators/ValidatorMoment'
+export const ValidatorMoment = ValidatorMoment_
 
-import ValidatorNonNullSrc from 'validators/ValidatorNonNull'
-export const ValidatorNonNull = ValidatorNonNullSrc
+import ValidatorNonNull_ from './validators/ValidatorNonNull'
+export const ValidatorNonNull = ValidatorNonNull_
 
-import ValidatorNumberSrc from 'validators/ValidatorNumber'
-export const ValidatorNumber = ValidatorNumberSrc
+import ValidatorNumber_ from './validators/ValidatorNumber'
+export const ValidatorNumber = ValidatorNumber_
 
-import ValidatorPasswordSrc from 'validators/ValidatorPassword'
-export const ValidatorPassword = ValidatorPasswordSrc
+import ValidatorPassword_ from './validators/ValidatorPassword'
+export const ValidatorPassword = ValidatorPassword_
 
-import ValidatorPhoneSrc from 'validators/ValidatorPhone'
-export const ValidatorPhone = ValidatorPhoneSrc
+import ValidatorPhone_ from './validators/ValidatorPhone'
+export const ValidatorPhone = ValidatorPhone_
 
-import ValidatorStringSrc from 'validators/ValidatorString'
-export const ValidatorString = ValidatorStringSrc
+import ValidatorString_ from './validators/ValidatorString'
+export const ValidatorString = ValidatorString_
+
+import { STATES as STATES_ } from './validators/ValidatorBase'
+export const STATES = STATES_
 
 import moment from 'moment'
-
-const today = moment().startOf('day')
 
 const validators = {
 	// Arrays
 	nonEmptyArray: new ValidatorArray({ minLength: 1 }),
 
 	// Date
-	beforeToday: new ValidatorMoment({ maxDate: today }),
-	afterToday: new ValidatorMoment({ minDate: today }),
+	todayOrBefore: new ValidatorMoment({ maxMoment: moment().startOf('day') }),
+	beforeToday: new ValidatorMoment({ maxMoment: moment().startOf('day').subtract(1,'days') }),
+	todayOrAfter: new ValidatorMoment({ minMoment: moment().startOf('day') }),
+	afterToday: new ValidatorMoment({ minMoment: moment().startOf('day').add(1,'days') }),
 
 	// Numbers
 	positiveInteger: new ValidatorNumber({ minValue: 1 }),
