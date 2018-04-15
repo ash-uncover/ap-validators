@@ -127,6 +127,20 @@ describe('ValidatorMoment', () => {
 		expect(new ValidatorMoment()).toBeDefined()
 	})
 
+	describe('constructor with non moment minMoment', () => {
+		const validator = new ValidatorMoment({
+			minMoment: ''
+		})
+		expect(validator.check(moment().add(1,'days'))).toEqual(success)
+	})
+
+	describe('constructor with non moment maxMoment', () => {
+		const validator = new ValidatorMoment({
+			maxMoment: {}
+		})
+		expect(validator.check(moment().subtract(1,'days'))).toEqual(success)
+	})
+
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {

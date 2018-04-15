@@ -38,7 +38,6 @@ export const checkMoment = (constraints, value) => {
 
 export const checkMinMoment = (constraints, value) => {
 	if (constraints.minMoment && value.isBefore(constraints.minMoment)) {
-		console.log('>> FAILED')
 		return {
 			state: STATES.ERROR,
 			message: constraints.ERRORS.MIN_MOMENT_EXCEEDED
@@ -65,12 +64,12 @@ export default class ValidatorMoment extends ValidatorBase {
 		if (props) {
 			if (moment.isMoment(props.minMoment)) {
 				this.minMoment = props.minMoment
-			} else if (props.minMoment) {
+			} else if (typeof props.minMoment !== 'undefined' && props.minMoment !== null) {
 				this.minMoment = moment(props.minMoment)
 			}
 			if (moment.isMoment(props.maxMoment)) {
 				this.maxMoment = props.maxMoment
-			} else if (props.maxMoment) {
+			} else if (typeof props.maxMoment !== 'undefined' && props.maxMoment !== null) {
 				this.maxMoment = moment(props.maxMoment)
 			}
 		}

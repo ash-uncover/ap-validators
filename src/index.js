@@ -35,8 +35,8 @@ const validators = {
 	nonEmptyArray: new ValidatorArray({ minLength: 1 }),
 
 	// Date
-	todayOrBefore: new ValidatorMoment({ maxMoment: moment().startOf('day') }),
-	beforeToday: new ValidatorMoment({ maxMoment: moment().startOf('day').subtract(1,'days') }),
+	todayOrBefore: new ValidatorMoment({ maxMoment: moment().startOf('day').add(1,'days') }),
+	beforeToday: new ValidatorMoment({ maxMoment: moment().startOf('day') }),
 	todayOrAfter: new ValidatorMoment({ minMoment: moment().startOf('day') }),
 	afterToday: new ValidatorMoment({ minMoment: moment().startOf('day').add(1,'days') }),
 
