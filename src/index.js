@@ -1,5 +1,5 @@
 import ValidatorArraySrc from 'validators/ValidatorArray'
-export const ValidatorBase = ValidatorArraySrc
+export const ValidatorArray = ValidatorArraySrc
 
 import ValidatorBaseSrc from 'validators/ValidatorBase'
 export const ValidatorBase = ValidatorBaseSrc
@@ -29,7 +29,7 @@ import moment from 'moment'
 
 const today = moment().startOf('day')
 
-export default const validators = {
+const validators = {
 	// Arrays
 	nonEmptyArray: new ValidatorArray({ minLength: 1 }),
 
@@ -50,3 +50,5 @@ export default const validators = {
 	password: new ValidatorPassword(),
 	phone: new ValidatorPhone()
 }
+
+export default validators
