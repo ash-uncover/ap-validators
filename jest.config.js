@@ -5,8 +5,7 @@ module.exports = {
 	],
 	"collectCoverageFrom": [
 		"src/**/*.js",
-		"!**/node_modules/**",
-		"!**/index.js"
+		"!**/node_modules/**"
 	],
 	"coverageDirectory": "test/__coverage__",
 	"coverageThreshold": {
