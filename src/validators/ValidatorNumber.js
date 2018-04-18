@@ -2,33 +2,9 @@ import { STATES } from './ValidatorBase'
 import ValidatorBase from './ValidatorBase'
 
 export const ERRORS = {
-	CANNOT_BE_NULL: 'CANNOT_BE_NULL',
 	MUST_BE_A_NUMBER: 'MUST_BE_A_NUMBER',
 	MIN_VALUE_EXCEEDED: 'MIN_VALUE_EXCEEDED',
 	MAX_VALUE_EXCEEDED: 'MAX_VALUE_EXCEEDED'
-}
-
-export const check = (constraints, value) => {
-	return checkNil(constraints, value) 
-		|| checkNumber(constraints, value)
-		|| checkMinValue(constraints, value)
-		|| checkMaxValue(constraints, value)
-		|| { state: STATES.SUCCESS }
-}
-
-export const checkNil = (constraints, value) => {
-	if (value === undefined || value == null) {
-		if (constraints.allowNil) {
-			return {
-				state: STATES.SUCCESS
-			}
-		} else {
-			return {
-				state: STATES.ERROR,
-				message: constraints.ERRORS.CANNOT_BE_NULL
-			}
-		}
-	}
 }
 
 export const checkNumber = (constraints, value) => {
@@ -61,12 +37,29 @@ export const checkMaxValue = (constraints, value) => {
 export default class ValidatorString extends ValidatorBase {
 
 	constructor(props) {
-		super(Object.assign({}, props, ERRORS))
-
-		this._check = check.bind(this, this)
-
-		this.minValue = props && Number(props.minValue)
-		this.maxValue = props && Number(props.maxValue)
-		this.allowNil = props && !!props.allowNil
+		super({ errors: ERRORS})
 	}
+
+    get maxValue() {
+        return this._maxValue
+    }
+    hasMaxValue(value) {
+        this._maxValue = value
+        return this
+    }
+
+    get minValue() {
+        return this._minValue
+    }
+    hasMinValue(value) {
+        this._minValue = value
+        return this
+    }
+
+    checkErrors(value) {
+        return ValidatorBase.prototype.checkErrors.call(this, value)
+            || checkNumber(this, value)
+            || checkMinValue(this, value)
+            || checkMaxValue(this, value)       
+    }
 }

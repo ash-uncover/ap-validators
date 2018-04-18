@@ -1,5 +1,5 @@
 import { STATES } from 'validators/ValidatorBase'
-import { ERRORS, check, checkNil, checkString, checkMinLength, checkMaxLength }  from 'validators/ValidatorString'
+import { ERRORS, checkString, checkMinLength, checkMaxLength, checkMatch, checkMatchNot }  from 'validators/ValidatorString'
 import ValidatorString from 'validators/ValidatorString'
 
 /* TEST DATA */
@@ -18,58 +18,15 @@ describe('ValidatorString exports', () => {
 		constraints = { ERRORS: ERRORS }
 	})
 
-	describe('checkNil', () => {
-
-		describe('when validator does not allow nil values', () => {
-
-			const error = {
-				state: STATES.ERROR,
-				message: constraints.ERRORS.CANNOT_BE_NULL
-			}
-
-			test('returns CANNOT_BE_NULL error for undefined value', () => {
-				expect(checkNil(constraints, undefined)).toEqual(error)
-				expect(check(constraints, undefined)).toEqual(error)
-			})
-			test('returns CANNOT_BE_NULL error for null value', () => {
-				expect(checkNil(constraints, null)).toEqual(error)
-				expect(check(constraints, null)).toEqual(error)
-			})
-			test('returns nothing for defined value', () => {
-				expect(checkNil(constraints, '')).toEqual()
-			})
-		})
-
-		describe('when validator allows nil values', () => {
-
-			beforeEach(() => {
-				constraints.allowNil = true
-			})
-
-			test('returns SUCCESS for undefined value', () => {
-				expect(checkNil(constraints, undefined)).toEqual(success)
-				expect(check(constraints, undefined)).toEqual(success)
-			})
-			test('returns SUCCESS for null value', () => {
-				expect(checkNil(constraints, null)).toEqual(success)
-				expect(check(constraints, null)).toEqual(success)
-			})
-			test('returns nothing for defined value', () => {
-				expect(checkNil(constraints, '')).toEqual()
-			})
-		})
-	})
-
 	describe('checkString', () => {
 		
 		const error = {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MUST_BE_A_STRING
+			message: ERRORS.MUST_BE_A_STRING
 		}
 
 		test('returns MUST_BE_A_STRING error for object value', () => {
 			expect(checkString(constraints, {})).toEqual(error)
-			expect(check(constraints, {})).toEqual(error)
 		})
 		test('returns nothing when value is a string', () => {
 			expect(checkString(constraints, '')).toEqual()
@@ -80,7 +37,7 @@ describe('ValidatorString exports', () => {
 
 		const error = {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MIN_LENGTH_EXCEEDED
+			message: ERRORS.MIN_LENGTH_EXCEEDED
 		}
 
 		beforeEach(() => {
@@ -89,7 +46,6 @@ describe('ValidatorString exports', () => {
 		
 		test('returns MIN_LENGTH_EXCEEDED error when string is too short', () => {
 			expect(checkMinLength(constraints, '')).toEqual(error)
-			expect(check(constraints, '')).toEqual(error)
 		})
 		test('returns nothing when string length is correct', () => {
 			expect(checkString(constraints, 'v')).toEqual()
@@ -100,7 +56,7 @@ describe('ValidatorString exports', () => {
 
 		const error = {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MAX_LENGTH_EXCEEDED
+			message: ERRORS.MAX_LENGTH_EXCEEDED
 		}
 
 		beforeEach(() => {
@@ -109,25 +65,53 @@ describe('ValidatorString exports', () => {
 		
 		test('returns MAX_LENGTH_EXCEEDED error when string is too long', () => {
 			expect(checkMaxLength(constraints, 'va')).toEqual(error)
-			expect(check(constraints, 'va')).toEqual(error)
 		})
 		test('returns nothing when string length is correct', () => {
 			expect(checkMaxLength(constraints, 'v')).toEqual()
 		})
 	})
 
-	describe('check', () => {
+    describe('checkMatch', () => {
 
-		beforeEach(() => {
-			constraints.allowNil = false
-			constraints.minLength = 2
-			constraints.maxLength = 2
-		})
-		
-		test('returns SUCCESS for a fully valid value', () => {
-			expect(check(constraints, 'va')).toEqual(success)
-		})
-	})
+        const error = {
+            state: STATES.ERROR,
+            message: 'MUST_MATCH_REGEX'
+        }
+
+        beforeEach(() => {
+            constraints.match = [
+                { regex: /^[0-9]{2}$/, error: 'MUST_MATCH_REGEX' }
+            ]
+        })
+        
+        test('returns MUST_MATCH_REGEX error when string does not match the regex', () => {
+            expect(checkMatch(constraints, '1')).toEqual(error)
+        })
+        test('returns nothing when string length is correct', () => {
+            expect(checkMatch(constraints, '12')).toEqual()
+        })
+    })
+
+    describe('checkMatchNot', () => {
+
+        const error = {
+            state: STATES.ERROR,
+            message: 'MUST_NOT_MATCH_REGEX'
+        }
+
+        beforeEach(() => {
+            constraints.matchNot = [
+                { regex: /^[0-9]{2}$/, error: 'MUST_NOT_MATCH_REGEX' }
+            ]
+        })
+        
+        test('returns MUST_MATCH_REGEX error when string does not match the regex', () => {
+            expect(checkMatchNot(constraints, '12')).toEqual(error)
+        })
+        test('returns nothing when string length is correct', () => {
+            expect(checkMatchNot(constraints, 'a1')).toEqual()
+        })
+    })
 })
 
 describe('ValidatorString', () => {
@@ -139,12 +123,15 @@ describe('ValidatorString', () => {
 	describe('check', () => {
 		
 		test('returns SUCCESS for a fully valid value', () => {
-			const validator = new ValidatorString({
-				allowNil: false,
-				minLength: 2,
-				maxLength: 2
-			})
+			const validator = new ValidatorString().hasMinLength(2).hasMaxLength(2)
 			expect(validator.check('va')).toEqual(success)
 		})
+        test('returns ERROR for an invalid value', () => {
+            const validator = new ValidatorString().hasMinLength(2)
+            expect(validator.check('a')).toEqual({
+                state: STATES.ERROR,
+                message: ERRORS.MIN_LENGTH_EXCEEDED
+            })
+        })
 	})
 })

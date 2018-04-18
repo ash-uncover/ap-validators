@@ -17,7 +17,6 @@ describe('validators', () => {
 		beforeEach(() => { validator = validators.nonEmptyArray })
 		
 		test('rejected values', () => {
-			expect(validator.check().state).toEqual(STATES.ERROR)
 			expect(validator.check({}).state).toEqual(STATES.ERROR)
 			expect(validator.check([]).state).toEqual(STATES.ERROR)
 		})
@@ -33,7 +32,6 @@ describe('validators', () => {
 		beforeEach(() => { validator = validators.beforeToday })
 
 		test('rejected values', () => {
-			expect(validator.check().state).toEqual(STATES.ERROR)
 			expect(validator.check('').state).toEqual(STATES.ERROR)
 			expect(validator.check('').state).toEqual(STATES.ERROR)
 			expect(validator.check(moment()).state).toEqual(STATES.ERROR)
@@ -48,7 +46,6 @@ describe('validators', () => {
 		beforeEach(() => { validator = validators.afterToday })
 
 		test('rejected values', () => {
-			expect(validator.check().state).toEqual(STATES.ERROR)
 			expect(validator.check('').state).toEqual(STATES.ERROR)
 			expect(validator.check('').state).toEqual(STATES.ERROR)
 			expect(validator.check(moment()).state).toEqual(STATES.ERROR)
@@ -65,7 +62,6 @@ describe('validators', () => {
 		beforeEach(() => { validator = validators.positiveInteger })
 
 		test('rejected values', () => {
-			expect(validator.check().state).toEqual(STATES.ERROR)
 			expect(validator.check({}).state).toEqual(STATES.ERROR)
 			expect(validator.check('').state).toEqual(STATES.ERROR)
 			expect(validator.check(0).state).toEqual(STATES.ERROR)
@@ -82,7 +78,6 @@ describe('validators', () => {
 		beforeEach(() => { validator = validators.nonEmptyString })
 
 		test('rejected values', () => {
-			expect(validator.check().state).toEqual(STATES.ERROR)
 			expect(validator.check({}).state).toEqual(STATES.ERROR)
 			expect(validator.check('').state).toEqual(STATES.ERROR)
 		})
@@ -112,10 +107,24 @@ describe('validators', () => {
 
 		beforeEach(() => { validator = validators.email })
 
-		test('rejected values', () => {
-			expect(validator.check('mail').state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
+        test('returns INVALID_EMAIL error when the string is not a valid email', () => {
+            const tests = [
+                '@test.com', 
+                'kiko@.com', 
+                'kiko@test.', 
+                'kikotest.fr', 
+                'kiko@testfr', 
+                'ki@ko@test.fr'
+            ]
+
+            tests.forEach(t => {
+                expect(validator.check('mail').state).toEqual({
+                    state: STATES.ERROR,
+                    error: 'INVALID_EMAIL'
+                })   
+            })
+        })
+		test('return success for valid values', () => {
 			expect(validator.check('mail@mail.com').state).toEqual(STATES.SUCCESS)
 		})
 	})
@@ -125,7 +134,6 @@ describe('validators', () => {
 		beforeEach(() => { validator = validators.nonNull })
 
 		test('rejected values', () => {
-			expect(validator.check().state).toEqual(STATES.ERROR)
 			expect(validator.check(null).state).toEqual(STATES.ERROR)
 		})
 		test('accepted values', () => {

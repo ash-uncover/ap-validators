@@ -4,27 +4,9 @@ import ValidatorBase from './ValidatorBase'
 import moment from 'moment'
 
 export const ERRORS = {
-	CANNOT_BE_NULL: 'CANNOT_BE_NULL',
 	MUST_BE_A_MOMENT: 'MUST_BE_A_MOMENT',
-	MIN_MOMENT_EXCEEDED: 'MIN_MOMENT_EXCEEDED',
-	MAX_MOMENT_EXCEEDED: 'MAX_MOMENT_EXCEEDED'
-}
-
-export const check = (constraints, value) => {
-	return checkNil(constraints, value) 
-		|| checkMoment(constraints, value)
-		|| checkMinMoment(constraints, value)
-		|| checkMaxMoment(constraints, value)
-		|| { state: STATES.SUCCESS }
-}
-
-export const checkNil = (constraints, value) => {
-	if (value === undefined || value == null) {
-		return {
-			state: STATES.ERROR,
-			message: constraints.ERRORS.CANNOT_BE_NULL
-		}
-	}
+	MIN_DATE_EXCEEDED: 'MIN_DATE_EXCEEDED',
+	MAX_DATE_EXCEEDED: 'MAX_DATE_EXCEEDED'
 }
 
 export const checkMoment = (constraints, value) => {
@@ -36,20 +18,20 @@ export const checkMoment = (constraints, value) => {
 	}
 }
 
-export const checkMinMoment = (constraints, value) => {
-	if (constraints.minMoment && value.isBefore(constraints.minMoment)) {
+export const checkMinDate = (constraints, value) => {
+	if (constraints._minDate && value.isBefore(constraints._minDate)) {
 		return {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MIN_MOMENT_EXCEEDED
+			message: constraints.ERRORS.MIN_DATE_EXCEEDED
 		}	
 	}
 }
 
-export const checkMaxMoment = (constraints, value) => {
-	if (constraints.maxMoment && value.isAfter(constraints.maxMoment)) {
+export const checkMaxDate = (constraints, value) => {
+	if (constraints._maxDate && value.isAfter(constraints._maxDate)) {
 		return {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MAX_MOMENT_EXCEEDED
+			message: constraints.ERRORS.MAX_DATE_EXCEEDED
 		}	
 	}
 }
@@ -57,10 +39,8 @@ export const checkMaxMoment = (constraints, value) => {
 export default class ValidatorMoment extends ValidatorBase {
 
 	constructor(props) {
-		super(Object.assign({}, props, ERRORS))
-
-		this._check = check.bind(this, this)
-
+		super({ errors: ERRORS})
+        /*
 		if (props) {
 			if (moment.isMoment(props.minMoment)) {
 				this.minMoment = props.minMoment
@@ -73,5 +53,29 @@ export default class ValidatorMoment extends ValidatorBase {
 				this.maxMoment = moment(props.maxMoment)
 			}
 		}
+        */
 	}
+
+    get maxDate() {
+        return this._maxDate
+    }
+    isBefore(value) {
+        this._maxDate = value
+        return this
+    }
+
+    get minDate() {
+        return this._minDate
+    }
+    isAfter(value) {
+        this._minDate = value
+        return this
+    }
+
+    checkErrors(value) {
+        return ValidatorBase.prototype.checkErrors.call(this, value)
+            || checkMoment(this, value)
+            || checkMinDate(this, value)
+            || checkMaxDate(this, value)       
+    }
 }

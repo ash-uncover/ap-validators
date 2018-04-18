@@ -1,5 +1,5 @@
-import { STATES } from 'validators/ValidatorBase'
-import { ERRORS, check, checkNil, checkString, checkRegex }  from 'validators/ValidatorPhone'
+import { STATES, checkNil } from 'validators/ValidatorBase'
+import { ERRORS, check, checkString, checkRegex }  from 'validators/ValidatorPhone'
 import ValidatorPhone from 'validators/ValidatorPhone'
 
 /* TEST DATA */
@@ -16,26 +16,6 @@ describe('ValidatorPhone exports', () => {
 
 	beforeEach(() => {
 		constraints = { ERRORS: ERRORS }
-	})
-
-	describe('checkNil', () => {
-
-		const error = {
-			state: STATES.ERROR,
-			message: constraints.ERRORS.INVALID_PHONE
-		}
-
-		test('returns INVALID_PHONE error for undefined value', () => {
-			expect(checkNil(constraints, undefined)).toEqual(error)
-			expect(check(constraints, undefined)).toEqual(error)
-		})
-		test('returns INVALID_PHONE error for null value', () => {
-			expect(checkNil(constraints, null)).toEqual(error)
-			expect(check(constraints, null)).toEqual(error)
-		})
-		test('returns nothing for defined value', () => {
-			expect(checkNil(constraints, '')).toEqual()
-		})
 	})
 
 	describe('checkString', () => {
