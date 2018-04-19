@@ -7,7 +7,7 @@ import ValidatorString from 'validators/ValidatorString'
 let constraints = { ERRORS: ERRORS }
 
 const success = {
-	state: STATES.SUCCESS
+    state: STATES.SUCCESS
 }
 const errorString = {
     state: STATES.ERROR,
@@ -34,47 +34,47 @@ const errorNotMatch = {
 
 describe('ValidatorString exports', () => {
 
-	beforeEach(() => {
-		constraints = { ERRORS: ERRORS }
-	})
+    beforeEach(() => {
+        constraints = { ERRORS: ERRORS }
+    })
 
-	describe('checkString', () => {
+    describe('checkString', () => {
 
-		test('returns MUST_BE_A_STRING error for object value', () => {
-			expect(checkString(constraints, {})).toEqual(errorString)
-		})
-		test('returns nothing when value is a string', () => {
-			expect(checkString(constraints, '')).toEqual()
-		})
-	})
+        test('returns MUST_BE_A_STRING error for object value', () => {
+            expect(checkString(constraints, {})).toEqual(errorString)
+        })
+        test('returns nothing when value is a string', () => {
+            expect(checkString(constraints, '')).toEqual()
+        })
+    })
 
-	describe('checkMinLength', () => {
+    describe('checkMinLength', () => {
 
-		beforeEach(() => {
-			constraints.minLength = 1
-		})
-		
-		test('returns MIN_LENGTH_EXCEEDED error when string is too short', () => {
-			expect(checkMinLength(constraints, '')).toEqual(errorMin)
-		})
-		test('returns nothing when string length is correct', () => {
-			expect(checkString(constraints, 'v')).toEqual()
-		})
-	})
+        beforeEach(() => {
+            constraints.minLength = 1
+        })
+        
+        test('returns MIN_LENGTH_EXCEEDED error when string is too short', () => {
+            expect(checkMinLength(constraints, '')).toEqual(errorMin)
+        })
+        test('returns nothing when string length is correct', () => {
+            expect(checkString(constraints, 'v')).toEqual()
+        })
+    })
 
-	describe('checkMaxLength', () => {
+    describe('checkMaxLength', () => {
 
-		beforeEach(() => {
-			constraints.maxLength = 1
-		})
-		
-		test('returns MAX_LENGTH_EXCEEDED error when string is too long', () => {
-			expect(checkMaxLength(constraints, 'va')).toEqual(errorMax)
-		})
-		test('returns nothing when string length is correct', () => {
-			expect(checkMaxLength(constraints, 'v')).toEqual()
-		})
-	})
+        beforeEach(() => {
+            constraints.maxLength = 1
+        })
+        
+        test('returns MAX_LENGTH_EXCEEDED error when string is too long', () => {
+            expect(checkMaxLength(constraints, 'va')).toEqual(errorMax)
+        })
+        test('returns nothing when string length is correct', () => {
+            expect(checkMaxLength(constraints, 'v')).toEqual()
+        })
+    })
 
     describe('checkMatch', () => {
 
@@ -111,19 +111,19 @@ describe('ValidatorString exports', () => {
 
 describe('ValidatorString', () => {
 
-	describe('default constructor call', () => {
-		expect(new ValidatorString()).toBeDefined()
-	})
+    describe('default constructor call', () => {
+        expect(new ValidatorString()).toBeDefined()
+    })
 
-	describe('check', () => {
-		
-		test('returns SUCCESS for a fully valid value', () => {
-			const validator = new ValidatorString().hasMinLength(2).hasMaxLength(2)
-			expect(validator.check('va')).toEqual(success)
-		})
+    describe('check', () => {
+        
+        test('returns SUCCESS for a fully valid value', () => {
+            const validator = new ValidatorString().hasMinLength(2).hasMaxLength(2)
+            expect(validator.check('va')).toEqual(success)
+        })
         test('returns ERROR for an invalid value', () => {
             const validator = new ValidatorString().hasMinLength(2)
             expect(validator.check('a')).toEqual(errorMin)
         })
-	})
+    })
 })

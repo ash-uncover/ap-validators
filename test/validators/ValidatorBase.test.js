@@ -15,19 +15,19 @@ const success = {
 
 describe('ValidatorBase exports', () => {
     describe('STATES', () => {
-    	
-    	test('has a "success" entry', () => {
-    		expect(STATES.SUCCESS).toEqual("success")
-    	})
-    	test('has a "info" entry', () => {
-    		expect(STATES.INFO).toEqual("info")
-    	})
-    	test('has a "warning" entry', () => {
-    		expect(STATES.WARNING).toEqual("warning")
-    	})
-    	test('has a "info" entry', () => {
-    		expect(STATES.ERROR).toEqual("error")
-    	})
+        
+        test('has a "success" entry', () => {
+            expect(STATES.SUCCESS).toEqual("success")
+        })
+        test('has a "info" entry', () => {
+            expect(STATES.INFO).toEqual("info")
+        })
+        test('has a "warning" entry', () => {
+            expect(STATES.WARNING).toEqual("warning")
+        })
+        test('has a "info" entry', () => {
+            expect(STATES.ERROR).toEqual("error")
+        })
     })
 
     describe('checkNil', () => {
@@ -71,33 +71,33 @@ describe('ValidatorBase exports', () => {
 
 describe('ValidatorBase', () => {
 
-	describe('default constructor call', () => {
-		expect(new ValidatorBase()).toBeDefined()
-	})
+    describe('default constructor call', () => {
+        expect(new ValidatorBase()).toBeDefined()
+    })
 
-	describe('ERRORS', () => {
+    describe('ERRORS', () => {
 
-		test('returns default object when unset', () => {
-			const validator = new ValidatorBase()
-			
-			expect(validator.ERRORS).toEqual(ERRORS)
-		})
+        test('returns default object when unset', () => {
+            const validator = new ValidatorBase()
+            
+            expect(validator.ERRORS).toEqual(ERRORS)
+        })
 
-		test('can be set through constructor', () => {
-			const error = { error: 'error' }
-			const validator = new ValidatorBase({ errors: error })
-			
-			expect(validator.ERRORS).toEqual(Object.assign(error , ERRORS))
-		})
-	})
+        test('can be set through constructor', () => {
+            const error = { error: 'error' }
+            const validator = new ValidatorBase({ errors: error })
+            
+            expect(validator.ERRORS).toEqual(Object.assign(error , ERRORS))
+        })
+    })
 
-	describe('check', () => {
+    describe('check', () => {
 
-		test('returns success for any value when nothing specified', () => {
-			const validator = new ValidatorBase()
-			
-			expect(validator.check('')).toEqual(success)
-		})
+        test('returns success for any value when nothing specified', () => {
+            const validator = new ValidatorBase()
+            
+            expect(validator.check('')).toEqual(success)
+        })
 
         test('returns success for null values when isRequired was not called', () => {
             const value = 'value'
@@ -115,5 +115,5 @@ describe('ValidatorBase', () => {
                 message: ERRORS.CANNOT_BE_NULL
             })
         })
-	})
+    })
 })

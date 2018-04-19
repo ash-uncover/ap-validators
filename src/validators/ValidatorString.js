@@ -2,36 +2,36 @@ import { STATES } from './ValidatorBase'
 import ValidatorBase from './ValidatorBase'
 
 export const ERRORS = {
-	MUST_BE_A_STRING: 'MUST_BE_A_STRING',
-	MIN_LENGTH_EXCEEDED: 'MIN_LENGTH_EXCEEDED',
-	MAX_LENGTH_EXCEEDED: 'MAX_LENGTH_EXCEEDED'
+    MUST_BE_A_STRING: 'MUST_BE_A_STRING',
+    MIN_LENGTH_EXCEEDED: 'MIN_LENGTH_EXCEEDED',
+    MAX_LENGTH_EXCEEDED: 'MAX_LENGTH_EXCEEDED'
 }
 
 export const checkString = (constraints, value) => {
-	if (typeof value !== 'string') {
-		return {
-			state: STATES.ERROR,
-			message: constraints.ERRORS.MUST_BE_A_STRING
-		}	
-	}
+    if (typeof value !== 'string') {
+        return {
+            state: STATES.ERROR,
+            message: constraints.ERRORS.MUST_BE_A_STRING
+        }   
+    }
 }
 
 export const checkMinLength = (constraints, value) => {
-	if (!isNaN(constraints.minLength) && value.length < constraints.minLength) {
-		return {
-			state: STATES.ERROR,
-			message: constraints.ERRORS.MIN_LENGTH_EXCEEDED
-		}	
-	}
+    if (!isNaN(constraints.minLength) && value.length < constraints.minLength) {
+        return {
+            state: STATES.ERROR,
+            message: constraints.ERRORS.MIN_LENGTH_EXCEEDED
+        }   
+    }
 }
 
 export const checkMaxLength = (constraints, value) => {
-	if (!isNaN(constraints.maxLength) && value.length > constraints.maxLength) {
-		return {
-			state: STATES.ERROR,
-			message: constraints.ERRORS.MAX_LENGTH_EXCEEDED
-		}	
-	}
+    if (!isNaN(constraints.maxLength) && value.length > constraints.maxLength) {
+        return {
+            state: STATES.ERROR,
+            message: constraints.ERRORS.MAX_LENGTH_EXCEEDED
+        }   
+    }
 }
 
 export const checkMatch = (constraints, value) => {
@@ -60,11 +60,11 @@ export const checkMatchNot = (constraints, value) => {
 
 export default class ValidatorString extends ValidatorBase {
 
-	constructor(props) {
-		super({ errors: ERRORS})
+    constructor(props) {
+        super({ errors: ERRORS})
         this._match = []
         this._matchNot = []
-	}
+    }
 
     get maxLength() {
         return this._maxLength
