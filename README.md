@@ -6,7 +6,7 @@ ap-validator is a small JavaScript validation library
 
 ## Features
 
-Uses a 'prop-types' like syntax to declare validation constraints on fields.   
+Uses a '[prop-types](https://github.com/facebook/prop-types)' like syntax to declare validation constraints on fields.   
 The validation constraints can be checked again the declared object to accept or reject a given value.
 
 ```javascript
@@ -20,6 +20,20 @@ validator.check('test')  // will return an object with shape { state: 'SUCCESS' 
 ## Installation
 
 `npm i --save ap-validators`
+
+## Importing
+
+```javascript
+import ValidatorTypes from 'ap-validators' // ES6
+var ValidatorTypes = require('ap-validators'); // ES5 with npm
+```
+
+Additionnal imports
+
+```javascript
+import { STATES } from 'ap-validators' // An object containing all the possible states values as members
+import { validators } from 'ap-validators' // A selection of preset validators
+```
 
 ## Usage
 
