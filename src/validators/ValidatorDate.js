@@ -4,16 +4,16 @@ import ValidatorBase from './ValidatorBase'
 import moment from 'moment'
 
 export const ERRORS = {
-	MUST_BE_A_MOMENT: 'MUST_BE_A_MOMENT',
+	MUST_BE_A_DATE: 'MUST_BE_A_DATE',
 	MIN_DATE_EXCEEDED: 'MIN_DATE_EXCEEDED',
 	MAX_DATE_EXCEEDED: 'MAX_DATE_EXCEEDED'
 }
 
-export const checkMoment = (constraints, value) => {
+export const checkDate = (constraints, value) => {
 	if (!moment.isMoment(value)) {
 		return {
 			state: STATES.ERROR,
-			message: constraints.ERRORS.MUST_BE_A_MOMENT
+			message: constraints.ERRORS.MUST_BE_A_DATE
 		}	
 	}
 }
@@ -60,7 +60,7 @@ export default class ValidatorDate extends ValidatorBase {
 
     checkErrors(value) {
         return ValidatorBase.prototype.checkErrors.call(this, value)
-            || checkMoment(this, value)
+            || checkDate(this, value)
             || checkMinDate(this, value)
             || checkMaxDate(this, value)       
     }

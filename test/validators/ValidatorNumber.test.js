@@ -9,6 +9,18 @@ let constraints = { ERRORS: ERRORS }
 const success = {
 	state: STATES.SUCCESS
 }
+const errorNumber = {
+    state: STATES.ERROR,
+    message: ERRORS.MUST_BE_A_NUMBER
+}
+const errorMin = {
+    state: STATES.ERROR,
+    message: ERRORS.MIN_VALUE_EXCEEDED
+}
+const errorMax = {
+    state: STATES.ERROR,
+    message: ERRORS.MAX_VALUE_EXCEEDED
+}
 
 /* TEST CASES */
 
@@ -20,13 +32,8 @@ describe('ValidatorNumber exports', () => {
 
 	describe('checkNumber', () => {
 		
-		const error = {
-			state: STATES.ERROR,
-			message: ERRORS.MUST_BE_A_NUMBER
-		}
-
 		test('returns MUST_BE_A_NUMBER error for object value', () => {
-			expect(checkNumber(constraints, {})).toEqual(error)
+			expect(checkNumber(constraints, {})).toEqual(errorNumber)
 		})
 		test('returns nothing when value is a number', () => {
 			expect(checkNumber(constraints, 0)).toEqual()
@@ -35,17 +42,12 @@ describe('ValidatorNumber exports', () => {
 
 	describe('checkMinValue', () => {
 
-		const error = {
-			state: STATES.ERROR,
-			message: ERRORS.MIN_VALUE_EXCEEDED
-		}
-
 		beforeEach(() => {
 			constraints.minValue = 2
 		})
 		
 		test('returns MIN_LENGTH_EXCEEDED error when value is less than minimum value', () => {
-			expect(checkMinValue(constraints, 1)).toEqual(error)
+			expect(checkMinValue(constraints, 1)).toEqual(errorMin)
 		})
 		test('returns nothing when value is greater or equal to minimum value', () => {
 			expect(checkNumber(constraints, 2)).toEqual()
@@ -54,17 +56,12 @@ describe('ValidatorNumber exports', () => {
 
 	describe('checkMaxValue', () => {
 
-		const error = {
-			state: STATES.ERROR,
-			message: ERRORS.MAX_VALUE_EXCEEDED
-		}
-
 		beforeEach(() => {
 			constraints.maxValue = 2
 		})
 		
 		test('returns MAX_VALUE_EXCEEDED error when value is greater than maximum value', () => {
-			expect(checkMaxValue(constraints, 3)).toEqual(error)
+			expect(checkMaxValue(constraints, 3)).toEqual(errorMax)
 		})
 		test('returns nothing when value is less or equal to maximum value', () => {
 			expect(checkMaxValue(constraints, 2)).toEqual()
@@ -86,10 +83,7 @@ describe('ValidatorNumber', () => {
 		})
         test('returns ERROR for an invalid value', () => {
             const validator = new ValidatorNumber().hasMinValue(5)
-            expect(validator.check(2)).toEqual({
-                state: STATES.ERROR,
-                message: ERRORS.MIN_VALUE_EXCEEDED
-            })
+            expect(validator.check(2)).toEqual(errorMin)
         })
 	})
 })

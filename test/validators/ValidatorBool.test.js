@@ -9,6 +9,10 @@ let constraints = { ERRORS: ERRORS }
 const success = {
 	state: STATES.SUCCESS
 }
+const errorBool = {
+    state: STATES.ERROR,
+    message: ERRORS.MUST_BE_A_BOOLEAN
+}
 
 /* TEST CASES */
 
@@ -20,16 +24,11 @@ describe('ValidatorBool exports', () => {
 
 	describe('checkBool', () => {
 		
-		const error = {
-			state: STATES.ERROR,
-			message: ERRORS.MUST_BE_A_BOOLEAN
-		}
-
 		test('returns MUST_BE_A_BOOLEAN error for object value', () => {
-			expect(checkBool(constraints, {})).toEqual(error)
+			expect(checkBool(constraints, {})).toEqual(errorBool)
 		})
 		test('returns MUST_BE_A_BOOLEAN error for string value', () => {
-			expect(checkBool(constraints, '')).toEqual(error)
+			expect(checkBool(constraints, '')).toEqual(errorBool)
 		})
 		test('returns nothing when value is a boolean', () => {
 			expect(checkBool(constraints, false)).toEqual()
@@ -52,14 +51,9 @@ describe('ValidatorBool', () => {
 		})
         test('returns ERROR for an invalid value', () => {
             const validator = new ValidatorBool()
-            expect(validator.check('')).toEqual({
-                state: STATES.ERROR,
-                message: ERRORS.MUST_BE_A_BOOLEAN
-            })
-            expect(validator.check(0)).toEqual({
-                state: STATES.ERROR,
-                message: ERRORS.MUST_BE_A_BOOLEAN
-            })
+            
+            expect(validator.check('')).toEqual(errorBool)
+            expect(validator.check(0)).toEqual(errorBool)
         })
 	})
 })
