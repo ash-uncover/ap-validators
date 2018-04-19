@@ -1,5 +1,4 @@
-import validators from 'index'
-import { STATES } from 'index'
+import { validators, STATES } from 'index'
 import moment from 'moment'
 
 /* TEST DATA */
