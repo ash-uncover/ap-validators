@@ -1,7 +1,7 @@
 import { STATES } from 'validators/ValidatorBase'
 import { ERRORS, checkObject, checkShape }  from 'validators/ValidatorObject'
 import ValidatorObject from 'validators/ValidatorObject'
-import ValidatorMock from '__mocks__/ValidatorMock'
+import ValidatorMock from '__mocks__/Validator.mock'
 
 /* TEST DATA */
 
