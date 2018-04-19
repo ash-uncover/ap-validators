@@ -1,3 +1,5 @@
+[![Package quality](http://packagequality.com/shield/package-quality.svg)](http://packagequality.com/#?package=ap-validators)
+
 # ap-validators
 
 ap-validator is a small JavaScript validation library
