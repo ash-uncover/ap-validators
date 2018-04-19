@@ -1,4 +1,4 @@
-[![Package quality](http://packagequality.com/shield/package-quality.svg)](http://packagequality.com/#?package=ap-validators)
+[![Package Quality](http://npm.packagequality.com/badge/ap-validators.png)](http://packagequality.com/#?package=ap-validators)
 
 # ap-validators
 
