@@ -33,11 +33,6 @@ export const checkShape = (constraints, value) => {
         }
         // Check the value members are valid
         const invalidKeys = Object.keys(shape).reduce((invalid, k) => {
-            /*
-            console.log('-----------------------')
-            console.log(k)
-            console.log(shape[k].check(value[k]))
-            */  
             if (shape[k].check(value[k]).state !== STATES.SUCCESS) {
                 return invalid.concat([k])
             }
