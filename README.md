@@ -7,7 +7,7 @@ ap-validator is a small JavaScript validation library
 ## Features
 
 Uses a '[prop-types](https://github.com/facebook/prop-types)' like syntax to declare validation constraints on fields.   
-The validation constraints can be checked again the declared object to accept or reject a given value.
+The validation constraints can be checked against the declared object to accept or reject a given value.
 
 ```javascript
 // Example: building a validator to accept non null strings
