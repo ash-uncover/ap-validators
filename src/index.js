@@ -13,6 +13,9 @@ export const ValidatorDate = ValidatorDate_
 import ValidatorNumber_ from './validators/ValidatorNumber'
 export const ValidatorNumber = ValidatorNumber_
 
+import ValidatorObject_ from './validators/ValidatorObject'
+export const ValidatorObject = ValidatorObject_
+
 import ValidatorString_ from './validators/ValidatorString'
 export const ValidatorString = ValidatorString_
 
@@ -29,6 +32,7 @@ const ValidatorTypes = {
     array: new ValidatorArray(),
     bool: new ValidatorBool(),
     number: new ValidatorNumber(),
+    object: new ValidatorObject(),
     string: new ValidatorString(),
 
     /* PRESETS */
