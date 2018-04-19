@@ -1,6 +1,6 @@
 {
   "name": "ap-validators",
-  "version": "0.0.52",
+  "version": "0.0.6",
   "description": "javascript validators",
   "main": "dist/index.js",
   "scripts": {

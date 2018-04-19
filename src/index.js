@@ -4,8 +4,11 @@ export const ValidatorArray = ValidatorArray_
 import ValidatorBase_ from './validators/ValidatorBase'
 export const ValidatorBase = ValidatorBase_
 
-import ValidatorMoment_ from './validators/ValidatorMoment'
-export const ValidatorMoment = ValidatorMoment_
+import ValidatorBool_ from './validators/ValidatorBool'
+export const ValidatorBool = ValidatorBool_
+
+import ValidatorDate_ from './validators/ValidatorDate'
+export const ValidatorDate = ValidatorDate_
 
 import ValidatorNumber_ from './validators/ValidatorNumber'
 export const ValidatorNumber = ValidatorNumber_
@@ -18,19 +21,30 @@ export const STATES = STATES_
 
 import moment from 'moment'
 
-const validators = {
+const ValidatorTypes = {
+
+    /* BASICS */
+
+    any: new ValidatorBase(),
+    array: new ValidatorArray(),
+    bool: new ValidatorBool(),
+    number: new ValidatorNumber(),
+    string: new ValidatorString(),
+
+    /* PRESETS */
+
 	// Arrays
 	nonEmptyArray: new ValidatorArray()
         .hasMinLength(1),
 
 	// Date
-	todayOrBefore: new ValidatorMoment().
+	todayOrBefore: new ValidatorDate().
         isBefore(moment().startOf('day').add(1,'days')),
-	beforeToday: new ValidatorMoment()
+	beforeToday: new ValidatorDate()
         .isBefore(moment().startOf('day')),
-	todayOrAfter: new ValidatorMoment()
+	todayOrAfter: new ValidatorDate()
         .isAfter(moment().startOf('day')),
-	afterToday: new ValidatorMoment()
+	afterToday: new ValidatorDate()
         .isAfter(moment().startOf('day').add(1,'days')),
 
 	// Numbers
@@ -54,12 +68,4 @@ const validators = {
         .matches(/^0[1-9]([-. ]?[0-9]{2}){4}$/, 'INVALID_PHONE'),
 }
 
-export default validators
-
-const ValidatorTypes = {
-
-    any: new ValidatorBase(),
-    array: new ValidatorArray(),
-    number: new ValidatorNumber(),
-    string: new ValidatorString()
-}
+export default ValidatorTypes

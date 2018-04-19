@@ -1,6 +1,6 @@
 import { STATES } from 'validators/ValidatorBase'
-import { ERRORS, checkMoment, checkMinDate, checkMaxDate }  from 'validators/ValidatorMoment'
-import ValidatorMoment from 'validators/ValidatorMoment'
+import { ERRORS, checkMoment, checkMinDate, checkMaxDate }  from 'validators/ValidatorDate'
+import ValidatorDate from 'validators/ValidatorDate'
 
 import moment from 'moment'
 
@@ -18,7 +18,7 @@ const tomorow = moment().add(1, 'days')
 
 /* TEST CASES */
 
-describe('ValidatorMoment exports', () => {
+describe('ValidatorDate exports', () => {
 
     beforeEach(() => {
         constraints = { ERRORS: ERRORS }
@@ -50,7 +50,7 @@ describe('ValidatorMoment exports', () => {
         }
 
         beforeEach(() => {
-            constraints._minDate = now
+            constraints.minDate = now
         })
         
         test('returns MIN_DATE_EXCEEDED error when moment is before min moment', () => {
@@ -72,7 +72,7 @@ describe('ValidatorMoment exports', () => {
         }
 
         beforeEach(() => {
-            constraints._maxDate = now
+            constraints.maxDate = now
         })
         
         test('returns MAX_DATE_EXCEEDED error when moment is after max moment', () => {
@@ -87,17 +87,17 @@ describe('ValidatorMoment exports', () => {
     })
 })
 
-describe('ValidatorMoment', () => {
+describe('ValidatorDate', () => {
 
     test('default constructor call', () => {
-        expect(new ValidatorMoment()).toBeDefined()
+        expect(new ValidatorDate()).toBeDefined()
     })
 
 
     describe('isAfter', () => {
     
         test('with non date minMoment', () => {
-            const validator = new ValidatorMoment().isAfter('')
+            const validator = new ValidatorDate().isAfter('')
             expect(validator.check(moment().add(1,'days'))).toEqual(success)
         })
     })
@@ -105,7 +105,7 @@ describe('ValidatorMoment', () => {
     describe('isBefore', () => {
 
         describe('with non moment maxMoment', () => {
-            const validator = new ValidatorMoment().isBefore({})
+            const validator = new ValidatorDate().isBefore({})
             expect(validator.check(moment().subtract(1,'days'))).toEqual(success)
         })
     })
@@ -113,7 +113,7 @@ describe('ValidatorMoment', () => {
     describe('check', () => {
         
         test('returns SUCCESS for a fully valid value', () => {
-            const validator = new ValidatorMoment().isAfter(yesterday).isBefore(tomorow)
+            const validator = new ValidatorDate().isAfter(yesterday).isBefore(tomorow)
             expect(validator.check(now)).toEqual(success)
         })
     })

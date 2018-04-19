@@ -2,110 +2,116 @@ import validators from 'index'
 import { STATES } from 'index'
 import moment from 'moment'
 
+/* TEST DATA */
+
+const success = { state: STATES.SUCCESS }
+
+/* TEST CASES */
+
 describe('validators', () => {
 
-	let validator
+    let validator
 
-	test('can be properly imported', () => {
-		expect(validators).toBeDefined()
-	})
+    test('can be properly imported', () => {
+        expect(validators).toBeDefined()
+    })
 
-	/* Arrays */
+    /* Arrays */
 
-	describe('nonEmptyArray', () => {
+    describe('nonEmptyArray', () => {
 
-		beforeEach(() => { validator = validators.nonEmptyArray })
-		
-		test('rejected values', () => {
-			expect(validator.check({}).state).toEqual(STATES.ERROR)
-			expect(validator.check([]).state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check(['']).state).toEqual(STATES.SUCCESS)
-		})
-	})
+        beforeEach(() => { validator = validators.nonEmptyArray })
+        
+        test('rejected values', () => {
+            expect(validator.check({}).state).toEqual(STATES.ERROR)
+            expect(validator.check([]).state).toEqual(STATES.ERROR)
+        })
+        test('accepted values', () => {
+            expect(validator.check(['']).state).toEqual(STATES.SUCCESS)
+        })
+    })
 
-	/* Date */
+    /* Date */
 
-	describe('beforeToday', () => {
+    describe('beforeToday', () => {
 
-		beforeEach(() => { validator = validators.beforeToday })
+        beforeEach(() => { validator = validators.beforeToday })
 
-		test('rejected values', () => {
-			expect(validator.check('').state).toEqual(STATES.ERROR)
-			expect(validator.check('').state).toEqual(STATES.ERROR)
-			expect(validator.check(moment()).state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check(moment().subtract(1, 'days')).state).toEqual(STATES.SUCCESS)
-		})
-	})
+        test('rejected values', () => {
+            expect(validator.check('').state).toEqual(STATES.ERROR)
+            expect(validator.check('').state).toEqual(STATES.ERROR)
+            expect(validator.check(moment()).state).toEqual(STATES.ERROR)
+        })
+        test('accepted values', () => {
+            expect(validator.check(moment().subtract(1, 'days')).state).toEqual(STATES.SUCCESS)
+        })
+    })
 
-	describe('afterToday', () => {
+    describe('afterToday', () => {
 
-		beforeEach(() => { validator = validators.afterToday })
+        beforeEach(() => { validator = validators.afterToday })
 
-		test('rejected values', () => {
-			expect(validator.check('').state).toEqual(STATES.ERROR)
-			expect(validator.check('').state).toEqual(STATES.ERROR)
-			expect(validator.check(moment()).state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check(moment().add(1, 'days')).state).toEqual(STATES.SUCCESS)
-		})
-	})
+        test('rejected values', () => {
+            expect(validator.check('').state).toEqual(STATES.ERROR)
+            expect(validator.check('').state).toEqual(STATES.ERROR)
+            expect(validator.check(moment()).state).toEqual(STATES.ERROR)
+        })
+        test('accepted values', () => {
+            expect(validator.check(moment().add(1, 'days')).state).toEqual(STATES.SUCCESS)
+        })
+    })
 
-	/* Numbers */
+    /* Numbers */
 
-	describe('positiveInteger', () => {
+    describe('positiveInteger', () => {
 
-		beforeEach(() => { validator = validators.positiveInteger })
+        beforeEach(() => { validator = validators.positiveInteger })
 
-		test('rejected values', () => {
-			expect(validator.check({}).state).toEqual(STATES.ERROR)
-			expect(validator.check('').state).toEqual(STATES.ERROR)
-			expect(validator.check(0).state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check(1).state).toEqual(STATES.SUCCESS)
-		})
-	})
+        test('rejected values', () => {
+            expect(validator.check({}).state).toEqual(STATES.ERROR)
+            expect(validator.check('').state).toEqual(STATES.ERROR)
+            expect(validator.check(0).state).toEqual(STATES.ERROR)
+        })
+        test('accepted values', () => {
+            expect(validator.check(1).state).toEqual(STATES.SUCCESS)
+        })
+    })
 
-	/* String */
+    /* String */
 
-	describe('nonEmptyString', () => {
+    describe('nonEmptyString', () => {
 
-		beforeEach(() => { validator = validators.nonEmptyString })
+        beforeEach(() => { validator = validators.nonEmptyString })
 
-		test('rejected values', () => {
-			expect(validator.check({}).state).toEqual(STATES.ERROR)
-			expect(validator.check('').state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check('a').state).toEqual(STATES.SUCCESS)
-		})
-	})
-	describe('tweet', () => {
+        test('rejected values', () => {
+            expect(validator.check({}).state).toEqual(STATES.ERROR)
+            expect(validator.check('').state).toEqual(STATES.ERROR)
+        })
+        test('accepted values', () => {
+            expect(validator.check('a').state).toEqual(STATES.SUCCESS)
+        })
+    })
+    describe('tweet', () => {
 
-		beforeEach(() => { validator = validators.tweet })
+        beforeEach(() => { validator = validators.tweet })
 
-		test('rejected values', () => {
-			const value = '0123456789012345678901234567890123456789' +
-				'0123456789012345678901234567890123456789' +
-				'0123456789012345678901234567890123456789' +
-				'0123456789012345678901234567890123456789'
-			expect(validator.check(value).state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check('').state).toEqual(STATES.SUCCESS)
-		})
-	})
+        test('rejected values', () => {
+            const value = '0123456789012345678901234567890123456789' +
+                '0123456789012345678901234567890123456789' +
+                '0123456789012345678901234567890123456789' +
+                '0123456789012345678901234567890123456789'
+            expect(validator.check(value).state).toEqual(STATES.ERROR)
+        })
+        test('accepted values', () => {
+            expect(validator.check('').state).toEqual(STATES.SUCCESS)
+        })
+    })
 
-	/* Specials */
+    /* Specials */
 
-	describe('email', () => {
+    describe('email', () => {
 
-		beforeEach(() => { validator = validators.email })
+        beforeEach(() => { validator = validators.email })
 
         test('returns INVALID_EMAIL error when the string is not a valid email', () => {
             const tests = [
@@ -118,53 +124,92 @@ describe('validators', () => {
             ]
 
             tests.forEach(t => {
-                expect(validator.check('mail').state).toEqual({
+                expect(validator.check(t)).toEqual({
                     state: STATES.ERROR,
-                    error: 'INVALID_EMAIL'
+                    message: 'INVALID_EMAIL'
                 })   
             })
         })
-		test('return success for valid values', () => {
-			expect(validator.check('mail@mail.com').state).toEqual(STATES.SUCCESS)
-		})
-	})
-	
-	describe('nonNull', () => {
+        test('return success for valid values', () => {
+            expect(validator.check('mail@mail.com').state).toEqual(STATES.SUCCESS)
+        })
+    })
+    
+    describe('nonNull', () => {
 
-		beforeEach(() => { validator = validators.nonNull })
+        beforeEach(() => { validator = validators.nonNull })
 
-		test('rejected values', () => {
-			expect(validator.check(null).state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check({}).state).toEqual(STATES.SUCCESS)
-			expect(validator.check('').state).toEqual(STATES.SUCCESS)
-			expect(validator.check(0).state).toEqual(STATES.SUCCESS)
-			expect(validator.check(false).state).toEqual(STATES.SUCCESS)
-		})
-	})
-	
-	describe('password', () => {
+        test('rejected values', () => {
+            expect(validator.check(null).state).toEqual(STATES.ERROR)
+        })
+        test('return success for valid values', () => {
+            expect(validator.check({})).toEqual(success)
+            expect(validator.check('')).toEqual(success)
+            expect(validator.check(0)).toEqual(success)
+            expect(validator.check(false)).toEqual(success)
+        })
+    })
+    
+    describe('password', () => {
 
-		beforeEach(() => { validator = validators.password })
+        beforeEach(() => { validator = validators.password })
 
-		test('rejected values', () => {
-			expect(validator.check('password').state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check('Password1').state).toEqual(STATES.SUCCESS)
-		})
-	})
-	
-	describe('phone', () => {
+        test('returns CONTAIN_FORBIDDEN_CHARS error when the string contains forbidden characters', () => {
+            let tests = [
+                'à', '@', 'é', '(', '?', '<', '^', '$', 'ù', '=', '/', '*', '-', '+'
+            ]
+            tests.forEach(t => {
+                expect(validator.check('Password1' + t)).toEqual({
+                    state: STATES.ERROR,
+                    message: 'CONTAIN_FORBIDDEN_CHARS'
+                })
+            })
+        })
+        test('returns MUST_CONTAIN_LOWERCASE error when the string does not contains lower case', () => {
+            expect(validator.check('PASSWORD1')).toEqual({
+                state: STATES.ERROR,
+                message: 'MUST_CONTAIN_LOWERCASE'
+            })
+        })
+        test('returns MUST_CONTAIN_UPPERCASE error when the string does not contains upper case', () => {
+            expect(validator.check('password1')).toEqual({
+                state: STATES.ERROR,
+                message: 'MUST_CONTAIN_UPPERCASE'
+            })
+        })
+        test('returns MUST_CONTAIN_SPECIAL error when the string does not contains special chars', () => {
+            expect(validator.check('Password')).toEqual({
+                state: STATES.ERROR,
+                message: 'MUST_CONTAIN_SPECIAL'
+            })
+        })
+        test('return success for valid values', () => {
+            expect(validator.check('Password1')).toEqual(success)
+        })
+    })
+    
+    describe('phone', () => {
 
-		beforeEach(() => { validator = validators.phone })
+        beforeEach(() => { validator = validators.phone })
 
-		test('rejected values', () => {
-			expect(validator.check('9876543210').state).toEqual(STATES.ERROR)
-		})
-		test('accepted values', () => {
-			expect(validator.check('0123456789').state).toEqual(STATES.SUCCESS)
-		})
-	})
+        test('returns INVALID_PHONE error when the string is not a valid email', () => {
+            const tests = [
+                '',            // must have 10 digits 
+                '012345678',   // must have 10 digits 
+                '01234567890', // must have 10 digits
+                '9876543210',  // must start with 0
+                '012345678a'   // must contain only digits
+            ]
+
+            tests.forEach(t => {
+                expect(validator.check(t)).toEqual({
+                    state: STATES.ERROR,
+                    message: 'INVALID_PHONE'
+                })
+            })
+        })
+        test('return success for valid values', () => {
+            expect(validator.check('0123456789')).toEqual(success)
+        })
+    })
 })
