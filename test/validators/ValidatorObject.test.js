@@ -53,8 +53,9 @@ describe('ValidatorObject exports', () => {
 
             const result = checkShape(constraints, value)
 
-            expect(validator.check.mock.calls.length).toBe(0)
-            expect(result).toEqual(errorUnexpected)
+            expect(validator.check.mock.calls.length).toBe(1)
+            expect(result.state).toEqual(errorUnexpected.state)
+            expect(result.message).toEqual(errorUnexpected.message)
         })
         test('returns INVALID_MEMBERS when object content does not match the validators', () => {
             const validator = new ValidatorMock({ state: STATES.ERROR })
@@ -64,7 +65,8 @@ describe('ValidatorObject exports', () => {
             const result = checkShape(constraints, value)
 
             expect(validator.check.mock.calls.length).toBe(1)
-            expect(result).toEqual(errorInvalid)
+            expect(result.state).toEqual(errorInvalid.state)
+            expect(result.message).toEqual(errorInvalid.message)
         })
         test('returns nothing when object matches the expected shape', () => {
             const validator = new ValidatorMock()
@@ -106,7 +108,14 @@ describe('ValidatorObject', () => {
 
             expect(validator.check('')).toEqual(errorObject)
             expect(validator.check([])).toEqual(errorObject)
-            expect(validator.check({ test: 'value' })).toEqual(errorUnexpected)
+            expect(validator.check({ test: 'value' })).toEqual({
+                state: STATES.ERROR,
+                message: 'UNEXPECTED_MEMBERS', 
+                shape: {
+                    data: { state: STATES.SUCCESS }, 
+                    test: { state: STATES.ERROR, message: 'UNEXPECTED_MEMBERS' }
+                }, 
+            })
         })
     })
 })

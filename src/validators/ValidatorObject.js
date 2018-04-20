@@ -19,29 +19,34 @@ export const checkObject = (constraints, value) => {
 export const checkShape = (constraints, value) => {
     const shape = constraints.innerShape
     if (shape) {
+        let hasErrors = false
+        let error
+
         // Check the value does not contain unexpected members
-        const unwantedKeys = Object.keys(value).filter((k) => {
+        const shapeResult = Object.keys(value).reduce((result, k) => {
             if (!shape[k]) {
-                return true
+                result[k] = {
+                    state: STATES.ERROR,
+                    message: constraints.ERRORS.UNEXPECTED_MEMBERS
+                }
+                error = constraints.ERRORS.UNEXPECTED_MEMBERS
             }
-        })
-        if (unwantedKeys.length) {
+            return result
+        }, {})
+
+        // Check the value members are valid        
+        Object.keys(shape).reduce((result, k) => {
+            result[k] = shape[k].check(value[k])
+            if (!error && result[k].state !== STATES.SUCCESS) {
+                error = constraints.ERRORS.INVALID_MEMBERS
+            }
+            return result
+        }, shapeResult)
+        if (error) {
             return {
                 state: STATES.ERROR,
-                message: constraints.ERRORS.UNEXPECTED_MEMBERS
-            }
-        }
-        // Check the value members are valid
-        const invalidKeys = Object.keys(shape).reduce((invalid, k) => {
-            if (shape[k].check(value[k]).state !== STATES.SUCCESS) {
-                return invalid.concat([k])
-            }
-            return invalid
-        }, [])
-        if (invalidKeys.length) {
-            return {
-                state: STATES.ERROR,
-                message: constraints.ERRORS.INVALID_MEMBERS
+                message: error,
+                shape: shapeResult
             }
         }
     }

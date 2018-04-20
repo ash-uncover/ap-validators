@@ -87,6 +87,7 @@ export default class ValidatorString extends ValidatorBase {
     }
     matches(regex, error) {
         this._match.push({ regex: regex, error: error })
+        this._errors[error] = error
         return this
     }
 
@@ -95,6 +96,7 @@ export default class ValidatorString extends ValidatorBase {
     }
     matchesNot(regex, error) {
         this._matchNot.push({ regex: regex, error: error })
+        this._errors[error] = error
         return this
     }
 
