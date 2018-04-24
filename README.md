@@ -1,5 +1,16 @@
 [![Package quality](http://packagequality.com/shield/ap-validators.svg)](http://packagequality.com/#?package=ap-validators)
 
+[![NPM Version][npm-image]][npm-url] ![NPM Downloads][downloads-image] [![GitHub issues][issues-image]][issues-url] [![Telegram][telegram-image]][telegram-url] [![Tweet][twitter-image]][twitter-url]
+
+[npm-image]: https://img.shields.io/npm/v/ap-validators.svg
+[npm-url]: https://www.npmjs.com/package/ap-validators
+
+[downloads-image]: https://img.shields.io/npm/dw/ap-validators.svg
+[deps-image]: https://david-dm.org/doasync/eslint-config-airbnb-standard.svg
+
+[issues-image]: https://img.shields.io/github/issues/doasync/ap-validators.svg
+[issues-url]: https://github.com/doasync/ap-validators/issues
+
 # ap-validators
 
 ap-validator is a small JavaScript validation library
