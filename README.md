@@ -1,4 +1,4 @@
-[![Package quality][packq-image]][packq-url] [![NPM Version][npm-image]][npm-url] ![NPM Downloads][downloads-image] [![GitHub issues][issues-image]][issues-url]
+[![NPM Version][npm-image]][npm-url] [![Package quality][packq-image]][packq-url] ![NPM Downloads][downloads-image] [![GitHub issues][issues-image]][issues-url]
 
 [packq-image]: http://packagequality.com/shield/ap-validators.svg
 [packq-url]: http://packagequality.com/#?package=ap-validators
