@@ -8,8 +8,8 @@
 
 [downloads-image]: https://img.shields.io/npm/dw/ap-validators.svg
 
-[issues-image]: https://img.shields.io/github/issues/doasync/ash-uncover/ap-validators.svg
-[issues-url]: https://github.com/doasync/ash-uncover/ap-validators/issues
+[issues-image]: https://img.shields.io/github/issues/ash-uncover/ap-validators.svg
+[issues-url]: https://github.com/ash-uncover/ap-validators/issues
 
 # ap-validators
 
