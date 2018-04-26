@@ -1,4 +1,15 @@
-[![Package quality](http://packagequality.com/shield/ap-validators.svg)](http://packagequality.com/#?package=ap-validators)
+[![NPM Version][npm-image]][npm-url] [![Package quality][packq-image]][packq-url] ![NPM Downloads][downloads-image] [![GitHub issues][issues-image]][issues-url]
+
+[packq-image]: http://packagequality.com/shield/ap-validators.svg
+[packq-url]: http://packagequality.com/#?package=ap-validators
+
+[npm-image]: https://img.shields.io/npm/v/ap-validators.svg
+[npm-url]: https://www.npmjs.com/package/ap-validators
+
+[downloads-image]: https://img.shields.io/npm/dw/ap-validators.svg
+
+[issues-image]: https://img.shields.io/github/issues/ash-uncover/ap-validators.svg
+[issues-url]: https://github.com/ash-uncover/ap-validators/issues
 
 # ap-validators
 
