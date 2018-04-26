@@ -1,5 +1,5 @@
 import { STATES } from 'validators/ValidatorBase'
-import { ERRORS, checkDate, checkMinDate, checkMaxDate }  from 'validators/ValidatorDate'
+import { ERRORS, checkDate, checkAfter, checkBefore }  from 'validators/ValidatorDate'
 import ValidatorDate from 'validators/ValidatorDate'
 
 import moment from 'moment'
@@ -49,37 +49,45 @@ describe('ValidatorDate exports', () => {
         })
     })
 
-    describe('checkMinDate', () => {
+    describe('checkAfter', () => {
 
         beforeEach(() => {
-            constraints.minDate = now
+            constraints.after = now
         })
         
         test('returns MIN_DATE_EXCEEDED error when moment is before min date', () => {
-            expect(checkMinDate(constraints, yesterday)).toEqual(errorMin)
+            expect(checkAfter(constraints, yesterday)).toEqual(errorMin)
         })
-        test('returns nothing when moment is the same as min date', () => {
-            expect(checkMinDate(constraints, now)).toEqual()
+        test('returns MIN_DATE_EXCEEDED error when moment is the same as min date', () => {
+            expect(checkAfter(constraints, now)).toEqual(errorMin)
+        })
+        test('returns nothing when inclusive and moment is the same as min date', () => {
+            constraints.afterInclusive = true
+            expect(checkAfter(constraints, now)).toEqual()
         })
         test('returns nothing when moment is the after min date', () => {
-            expect(checkMinDate(constraints, tomorow)).toEqual()
+            expect(checkAfter(constraints, tomorow)).toEqual()
         })
     })
 
-    describe('checkMaxDate', () => {
+    describe('checkBefore', () => {
 
         beforeEach(() => {
-            constraints.maxDate = now
+            constraints.before = now
         })
         
         test('returns MAX_DATE_EXCEEDED error when moment is after max moment', () => {
-            expect(checkMaxDate(constraints, tomorow)).toEqual(errorMax)
+            expect(checkBefore(constraints, tomorow)).toEqual(errorMax)
         })
-        test('returns nothing when moment is the same as max moment', () => {
-            expect(checkMaxDate(constraints, now)).toEqual()
+        test('returns MAX_DATE_EXCEEDED error when moment is the same as max moment', () => {
+            expect(checkBefore(constraints, tomorow)).toEqual(errorMax)
+        })
+        test('returns nothing when inclusive and moment is the same as max moment', () => {
+            constraints.beforeInclusive = true
+            expect(checkBefore(constraints, now)).toEqual()
         })
         test('returns nothing when moment is before max moment', () => {
-            expect(checkMaxDate(constraints, yesterday)).toEqual()
+            expect(checkBefore(constraints, yesterday)).toEqual()
         })
     })
 })

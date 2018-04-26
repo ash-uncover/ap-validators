@@ -18,21 +18,45 @@ export const checkDate = (constraints, value) => {
     }
 }
 
-export const checkMinDate = (constraints, value) => {
-    if (constraints.minDate && value.isBefore(constraints.minDate)) {
-        return {
-            state: STATES.ERROR,
-            message: constraints.ERRORS.MIN_DATE_EXCEEDED
-        }   
+export const checkAfter = (constraints, value) => {
+    let after = constraints.after
+    if (constraints.afterNow) {
+        after = moment().startOf('day')
+    }
+    if (after) {
+        if (!constraints.afterInclusive && value.isSame(after)) {
+            return {
+                state: STATES.ERROR,
+                message: constraints.ERRORS.MIN_DATE_EXCEEDED
+            }
+        }
+        if (value.isBefore(after)) {
+            return {
+                state: STATES.ERROR,
+                message: constraints.ERRORS.MIN_DATE_EXCEEDED
+            }
+        }
     }
 }
 
-export const checkMaxDate = (constraints, value) => {
-    if (constraints.maxDate && value.isAfter(constraints.maxDate)) {
-        return {
-            state: STATES.ERROR,
-            message: constraints.ERRORS.MAX_DATE_EXCEEDED
-        }   
+export const checkBefore = (constraints, value) => {
+    let before = constraints.before
+    if (constraints.beforeNow) {
+        before = moment().startOf('day')
+    }
+    if (before) {
+        if (!constraints.beforeInclusive && value.isSame(before)) {
+            return {
+                state: STATES.ERROR,
+                message: constraints.ERRORS.MAX_DATE_EXCEEDED
+            }
+        }
+        if (value.isAfter(before)) {
+            return {
+                state: STATES.ERROR,
+                message: constraints.ERRORS.MAX_DATE_EXCEEDED
+            }
+        }
     }
 }
 
@@ -42,26 +66,48 @@ export default class ValidatorDate extends ValidatorBase {
         super({ errors: ERRORS})
     }
 
-    get maxDate() {
-        return this._maxDate
+    get before() {
+        return this._isBefore
     }
     isBefore(value) {
-        this._maxDate = value
+        this._isBefore = value
+        return this
+    }
+    get beforeNow() {
+        return this._isBeforeNow
+    }
+    isBeforeNow() {
+        this._isBeforeNow = true
+        return this
+    }
+    get beforeInclusive() {
+        return this._isBeforeInclusive
+    }
+    isBeforeInclusive() {
+        this._isBeforeInclusive = true
         return this
     }
 
-    get minDate() {
-        return this._minDate
+    get after() {
+        return this._isAfter
     }
     isAfter(value) {
-        this._minDate = value
+        this._isAfter = value
+        return this
+    }
+    isAfterNow() {
+        this._isAfterNow = true
+        return this
+    }
+    isAfterInclusive() {
+        this._isAfterInclusive = true
         return this
     }
 
     checkErrors(value) {
         return ValidatorBase.prototype.checkErrors.call(this, value)
             || checkDate(this, value)
-            || checkMinDate(this, value)
-            || checkMaxDate(this, value)       
+            || checkAfter(this, value)
+            || checkBefore(this, value)       
     }
 }

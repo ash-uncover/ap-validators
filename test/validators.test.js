@@ -1,9 +1,51 @@
-import { validators, STATES } from 'index'
+import { STATES } from 'index'
+import ValidatorTypes from 'index'
 import moment from 'moment'
 
 /* TEST DATA */
 
 const success = { state: STATES.SUCCESS }
+
+const validators = {
+
+    // Arrays
+    nonEmptyArray: ValidatorTypes.array.
+        hasMinLength(1),
+
+    // Date
+    todayOrBefore: ValidatorTypes.date.
+        isBefore(moment().startOf('day').add(1,'days')),
+    beforeToday: ValidatorTypes.date.
+        isBefore(moment().startOf('day')),
+    todayOrAfter: ValidatorTypes.date.
+        isAfter(moment().startOf('day')),
+    afterToday: ValidatorTypes.date.
+        isAfter(moment().startOf('day').add(1,'days')),
+
+    // Numbers
+    positiveInteger: ValidatorTypes.number.
+        hasMinValue(1),
+
+    // String
+    nonEmptyString: ValidatorTypes.string.
+        hasMinLength(1),
+    tweet: ValidatorTypes.string.
+        isRequired.hasMaxLength(140),
+
+    // Specials
+    nonNull: ValidatorTypes.any.
+        isRequired,
+    email: ValidatorTypes.string.
+        matches(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'INVALID_EMAIL'),
+    password: ValidatorTypes.string.
+        hasMinLength(8).
+        matchesNot(/\W/, 'CONTAIN_FORBIDDEN_CHARS').
+        matches(/[a-z]/, 'MUST_CONTAIN_LOWERCASE').
+        matches(/[A-Z]/, 'MUST_CONTAIN_UPPERCASE').
+        matches(/[0-9_]/, 'MUST_CONTAIN_SPECIAL'),
+    phone: ValidatorTypes.string.
+        matches(/^0[1-9]([-. ]?[0-9]{2}){4}$/, 'INVALID_PHONE')
+}
 
 /* TEST CASES */
 

@@ -19,7 +19,6 @@ export const checkObject = (constraints, value) => {
 export const checkShape = (constraints, value) => {
     const shape = constraints.innerShape
     if (shape) {
-        let hasErrors = false
         let error
 
         // Check the value does not contain unexpected members
