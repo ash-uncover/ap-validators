@@ -43,7 +43,6 @@ Additionnal imports
 
 ```javascript
 import { STATES } from 'ap-validators' // An object containing all the possible states values as members
-import { validators } from 'ap-validators' // A selection of preset validators
 ```
 
 ## Usage

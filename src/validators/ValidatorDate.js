@@ -10,12 +10,22 @@ export const ERRORS = {
 }
 
 export const checkDate = (constraints, value) => {
-    if (!moment.isMoment(value)) {
+    const isMoment = moment.isMoment(value)
+    const isDate = (value instanceof Date) && moment(value).isValid()
+    const isLocalDate = Array.isArray(value) && (value.length = 3) && !isNaN(value[0]) && !isNaN(value[1]) && !isNaN(value[2]) && moment(value).isValid()
+    if (!isMoment && !isDate && !isLocalDate) {
         return {
             state: STATES.ERROR,
             message: constraints.ERRORS.MUST_BE_A_DATE
-        }   
+        }       
     }
+}
+
+export const castToMoment = (value) => {
+    if (moment.isMoment(value)) {
+        return value
+    }
+    return moment(value)
 }
 
 export const checkAfter = (constraints, value) => {
@@ -76,14 +86,14 @@ export default class ValidatorDate extends ValidatorBase {
     get beforeNow() {
         return this._isBeforeNow
     }
-    isBeforeNow() {
+    get isBeforeNow() {
         this._isBeforeNow = true
         return this
     }
     get beforeInclusive() {
         return this._isBeforeInclusive
     }
-    isBeforeInclusive() {
+    get isBeforeInclusive() {
         this._isBeforeInclusive = true
         return this
     }
@@ -95,19 +105,30 @@ export default class ValidatorDate extends ValidatorBase {
         this._isAfter = value
         return this
     }
-    isAfterNow() {
+    get afterNow() {
+        return this._isAfterNow
+    }
+    get isAfterNow() {
         this._isAfterNow = true
         return this
     }
-    isAfterInclusive() {
+    get afterInclusive() {
+        return this._isAfterInclusive
+    }
+    get isAfterInclusive() {
         this._isAfterInclusive = true
         return this
     }
 
     checkErrors(value) {
-        return ValidatorBase.prototype.checkErrors.call(this, value)
+        const errorBase = ValidatorBase.prototype.checkErrors.call(this, value)
             || checkDate(this, value)
-            || checkAfter(this, value)
-            || checkBefore(this, value)       
+        if (errorBase) {
+            return errorBase
+        } else {
+            const momentValue = castToMoment(value)
+            return checkAfter(this, momentValue)
+                || checkBefore(this, momentValue)
+        }
     }
 }

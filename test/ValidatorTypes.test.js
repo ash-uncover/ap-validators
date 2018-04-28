@@ -1,6 +1,8 @@
 import ValidatorTypes from 'index'
 import { STATES } from 'index'
 
+import moment from 'moment'
+
 /* TEST DATA */
 
 const success = { state: STATES.SUCCESS }
@@ -40,6 +42,22 @@ describe('ValidatorTypes', () => {
         })
         test('returns success when value is valid', () => {
             expect(ValidatorTypes.bool.check(false)).toEqual(success)
+        })
+    })
+
+    describe('date', () => {
+
+        test('returns error when value is invalid', () => {
+            expect(ValidatorTypes.date.check({}).state).toBe(STATES.ERROR)
+        })
+        test('returns success when value is a valid moment', () => {
+            expect(ValidatorTypes.date.check(moment())).toEqual(success)
+        })
+        test('returns success when value is a valid date', () => {
+            expect(ValidatorTypes.date.check(new Date())).toEqual(success)
+        })
+        test('returns success when value is a valid local date', () => {
+            expect(ValidatorTypes.date.check([1980, 11, 25])).toEqual(success)
         })
     })
 

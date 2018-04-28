@@ -24,9 +24,9 @@ const errorMax = {
     message: constraints.ERRORS.MAX_DATE_EXCEEDED
 }
 
-const yesterday = moment().subtract(1, 'days')
-const now = moment()
-const tomorow = moment().add(1, 'days')
+const yesterday = moment().startOf('day').subtract(1, 'days')
+const now = moment().startOf('day')
+const tomorow = moment().startOf('day').add(1, 'days')
 
 /* TEST CASES */
 
@@ -94,24 +94,100 @@ describe('ValidatorDate exports', () => {
 
 describe('ValidatorDate', () => {
 
+    const datePrev = [2000,0,24]
+    const date =     [2000,0,25]
+    const dateNext = [2000,0,26]
+
+
     test('default constructor call', () => {
         expect(new ValidatorDate()).toBeDefined()
     })
 
-
     describe('isAfter', () => {
     
-        test('with non date minMoment', () => {
-            const validator = new ValidatorDate().isAfter('')
-            expect(validator.check(moment().add(1,'days'))).toEqual(success)
+        test('accepts values strictly after', () => {
+            const validator = new ValidatorDate().isAfter(date)
+            expect(validator.check(dateNext)).toEqual(success)
+        })
+        test('rejects same value', () => {
+            const validator = new ValidatorDate().isAfter(date)
+            expect(validator.check(date).state).toEqual('error')
+        })
+        test('rejects values strictly before', () => {
+            const validator = new ValidatorDate().isAfter(date)
+            expect(validator.check(datePrev).state).toEqual('error')
+        })
+    })
+
+    describe('isAfterInclusive', () => {
+
+        test('accepts same value', () => {
+            const validator = new ValidatorDate().isAfter(date).isAfterInclusive
+            expect(validator.check(date)).toEqual(success)
+        })
+        test('rejects values strictly before', () => {
+            const validator = new ValidatorDate().isAfter(moment()).isAfterInclusive
+            expect(validator.check(datePrev).state).toEqual('error')
+        })
+    })
+
+    describe('isAfterNow', () => {
+
+        test('accepts values in the future', () => {
+            const validator = new ValidatorDate().isAfterNow
+            expect(validator.check(tomorow)).toEqual(success)
+        })
+        test('rejects present values', () => {
+            const validator = new ValidatorDate().isAfterNow
+            expect(validator.check(now).state).toEqual('error')
+        })
+        test('rejects past values', () => {
+            const validator = new ValidatorDate().isAfterNow
+            expect(validator.check(yesterday).state).toEqual('error')
         })
     })
 
     describe('isBefore', () => {
 
-        describe('with non moment maxMoment', () => {
-            const validator = new ValidatorDate().isBefore({})
-            expect(validator.check(moment().subtract(1,'days'))).toEqual(success)
+        test('accepts values strictly before', () => {
+            const validator = new ValidatorDate().isBefore(date)
+            expect(validator.check(datePrev)).toEqual(success)
+        })
+        test('rejects same value', () => {
+            const validator = new ValidatorDate().isBefore(date)
+            expect(validator.check(date).state).toEqual('error')
+        })
+        test('rejects values strictly after', () => {
+            const validator = new ValidatorDate().isBefore(date)
+            expect(validator.check(dateNext).state).toEqual('error')
+        })
+    })
+
+    describe('isBeforeInclusive', () => {
+
+        test('accepts same value', () => {
+            const validator = new ValidatorDate().isBefore(date).isBeforeInclusive
+            expect(validator.check(date)).toEqual(success)
+        })
+        test('rejects values strictly after', () => {
+            const validator = new ValidatorDate().isBefore(date).isBeforeInclusive
+            expect(validator.check(dateNext).state).toEqual('error')
+        })
+    })
+
+    describe('isBeforeNow', () => {
+
+        test('accepts values in the past', () => {
+            const validator = new ValidatorDate().isBeforeNow
+            expect(validator.check(yesterday)).toEqual(success)
+        })
+        test('rejects present values', () => {
+            const validator = new ValidatorDate().isBeforeNow
+            expect(validator.check(now).state).toEqual('error')
+        })
+        test('rejects future values', () => {
+            const validator = new ValidatorDate().isBeforeNow
+            expect(validator.check(tomorow).state).toEqual('error')
         })
     })
 
